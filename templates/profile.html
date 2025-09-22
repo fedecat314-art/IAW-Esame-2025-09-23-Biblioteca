@@ -90,8 +90,8 @@
             {% if loan['status'] == 0 or loan['status'] == 1 %}
             <div class="col">
                 <div class="card h-100 rounded-0">
-                        <img src="{{ url_for('static', filename=loan.book_cover) }}" class="card-img-top rounded-0" alt="immagine"
-                            style="object-fit: contain;">
+                    <img src="{{ url_for('static', filename=loan.book_cover) }}"
+                        class="card-img-top rounded-0 object-fit-contain" alt="immagine">
                     <div class="card-body">
                         <h5 class="card-title">{{loan.book_title}}</h5>
                         <p class="card-text">{{loan.book_author}}</p>
@@ -99,40 +99,40 @@
                         <p class="card-text">Scadenza: {{loan['due_date']}}</p>
                     </div>
                     <!--se lo status è 0 (prenotato) mostra il bottone "ritira"-->
-                    {% if loan['status'] == 0 and loan['start_date'] <= current_date <= loan['due_date'] %}
-                    <form method="POST" action="{{url_for('start_loan', loan_id=loan['id'])}}">
+                    {% if loan['status'] == 0 and loan['start_date'] <= current_date <=loan['due_date'] %} <form
+                        method="POST" action="{{url_for('start_loan', loan_id=loan['id'])}}">
                         <div class="d-flex conteiner mt-auto justify-content-end mb-4 me-4">
                             <input type="hidden" name="action" value="start_loan">
                             <button type="submit" class="btn btn-danger btn-sm">Ritira</button>
                         </div>
-                    </form>                    
-                    {% endif %}
-                    <!--se lo status è 1 (prestito attivo) mostra il bottone "restituisci"-->
-                    {% if loan['status'] == 1 %}
-                    <form method="POST" action="{{url_for('return_loan', loan_id=loan['id'])}}">
+                        </form>
+                        {% endif %}
+                        <!--se lo status è 1 (prestito attivo) mostra il bottone "restituisci"-->
+                        {% if loan['status'] == 1 %}
+                        <form method="POST" action="{{url_for('return_loan', loan_id=loan['id'])}}">
+                            <div class="d-flex conteiner mt-auto justify-content-end mb-4 me-4">
+                                <input type="hidden" name="action" value="return_loan">
+                                <button type="submit" class="btn btn-danger btn-sm">Restituisci</button>
+                            </div>
+                        </form>
+                        <!--avviso prestito in scadenza 3 giorni prima della data di scadenza-->
+                        {% if loan.show_warning %}
                         <div class="d-flex conteiner mt-auto justify-content-end mb-4 me-4">
-                            <input type="hidden" name="action" value="return_loan">
-                            <button type="submit" class="btn btn-danger btn-sm">Restituisci</button>
+                            <span class="badge rounded-pill text-bg-warning bg-opacity-75 ">Sta per scadere il
+                                prestito</span>
                         </div>
-                    </form>
-                    <!--avviso prestito in scadenza 3 giorni prima della data di scadenza-->
-                    {% if loan.show_warning %}
-                    <div class="d-flex conteiner mt-auto justify-content-end mb-4 me-4">
-                        <span class="badge rounded-pill text-bg-warning bg-opacity-75 ">Sta per scadere il
-                            prestito</span>
-                    </div>
-                    {% endif %}
-                    <!--se lo status è 0 (prenotato) mostra il bottone "annulla prenotazione"-->
-                    {% elif loan['status'] == 0 %}
+                        {% endif %}
+                        <!--se lo status è 0 (prenotato) mostra il bottone "annulla prenotazione"-->
+                        {% elif loan['status'] == 0 %}
 
-                    <form method="POST" action="{{ url_for('dismiss_loan', loan_id=loan['id']) }}">
-                        <div class="d-flex conteiner mt-auto justify-content-end mb-4 me-4">
-                            <input type="hidden" name="action" value="dismiss_loan">
-                            <button type="submit" class="btn btn-danger btn-sm">Annulla
-                                prenotazione</button>
-                        </div>
-                    </form>
-                    {% endif %}
+                        <form method="POST" action="{{ url_for('dismiss_loan', loan_id=loan['id']) }}">
+                            <div class="d-flex conteiner mt-auto justify-content-end mb-4 me-4">
+                                <input type="hidden" name="action" value="dismiss_loan">
+                                <button type="submit" class="btn btn-danger btn-sm">Annulla
+                                    prenotazione</button>
+                            </div>
+                        </form>
+                        {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -143,18 +143,15 @@
         {% for loan in loans %}
         {% if loan['status'] == 2 %}
         <div class="text-start mt-5">
-            <h5>Le tue letture precedenti</h5>
+            <h3>Le tue letture precedenti</h3>
         </div>
         <div class="row row-cols-2 row-cols-md-5 row-cols-lg-9 g-4">
 
-            
-            
+
+
             <div class="col">
                 <div class="card h-100 rounded-0">
-                    <div class="ratio ratio-1x1">
-                        <img src="{{ url_for('static', filename=loan.book_cover) }}" class="card-img-top" alt=""
-                            style="object-fit: contain;">
-                    </div>
+                    <img src="{{ url_for('static', filename=loan.book_cover) }}" class="card-img-top rounded-0 object-fit-contain" alt="">
                     <div class="card-body">
                         <h5 class="card-title">{{loan.book_title}}</h5>
                         <p class="card-text">{{loan.book_author}}</p>
@@ -177,8 +174,8 @@
             <div class="col">
                 <div class="card h-100 rounded-0">
                     <a href="{{ url_for('book', id=book.id) }}">
-                        <img src="{{ url_for('static', filename=book.cover) }}" class="card-img-top" alt="..."
-                            alt="immagine" style="object-fit: contain;"></a>
+                        <img src="{{ url_for('static', filename=book.cover) }}"
+                            class="card-img-top rounded-0 object-fit-contain" alt="immagine"></a>
                     <div class="card-body">
                         <h5 class="card-title">{{book.title}}</h5>
                         <p class="card-text">{{book.author}}</p>
@@ -196,66 +193,66 @@
         <!-- PROFILO BIBLIOTECARIO -->
         {% elif current_user.role == 1 %}
         <h2 class="text text-center mb-5">Prestiti e prenotazioni</h2>
-            <!-- TABELLA -->
-            <div class="card mb-5 table-responsive">
-                <table class="table table-hover table-warning">
-                    <thead>
-                        <tr>
-                            <th>Prestito</th>
-                            <th>Utente</th>
-                            <th>Libro</th>
-                            <th>Inizio prestito</th>
-                            <th>Scadenza</th>
-                            <th>Stato</th>
-                            <th>Azioni</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for loan in loans %}
-                        <tr>
-                            <td>{{loan['id']}}</td>
-                            <td>{{loan['user_username']}}</td>
-                            <!-- book link shouldn't be blue, only have the underline -->
-                            <td><a href="{{ url_for('book', id=loan['book_id']) }}" class="text-decoration-underline text-black">{{loan['book_title']}}</a></td>
-                            <td>{{loan['start_date']}}</td>
-                            <td>{{loan['due_date']}}</td>
-                            <td>
-                                {% if loan['status'] == 0 %}
-                                <span class="badge bg-warning">Prenotato</span>
-                                {% elif loan['status'] == 1 %}
-                                <span class="badge bg-info">In prestito</span>
-                                {% elif loan['status'] == 2 %}
-                                <span class="badge bg-success">Restituito</span>
-                                {% elif loan['status'] == 3 %}
-                                <span class="badge bg-danger">Annullato</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if loan['status'] == 0 %}
-                                <form method="post" action="{{ url_for('dismiss_loan', loan_id=loan['id']) }}">
-                                    <div class="d-flex">
-                                        <input type="hidden" name="action" value="dismiss_loan">
-                                        <button type="submit" name="action" value="update"
-                                            class="btn btn-danger">Annulla
-                                            prenotazione</button>
-                                    </div>
-                                </form>
-                                {% else %}
+        <!-- TABELLA -->
+        <div class="card mb-5 table-responsive">
+            <table class="table table-hover table-warning">
+                <thead>
+                    <tr>
+                        <th>Prestito</th>
+                        <th>Utente</th>
+                        <th>Libro</th>
+                        <th>Inizio prestito</th>
+                        <th>Scadenza</th>
+                        <th>Stato</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in loans %}
+                    <tr>
+                        <td>{{loan['id']}}</td>
+                        <td>{{loan['user_username']}}</td>
+                        <!-- book link shouldn't be blue, only have the underline -->
+                        <td><a href="{{ url_for('book', id=loan['book_id']) }}"
+                                class="text-decoration-underline text-black">{{loan['book_title']}}</a></td>
+                        <td>{{loan['start_date']}}</td>
+                        <td>{{loan['due_date']}}</td>
+                        <td>
+                            {% if loan['status'] == 0 %}
+                            <span class="badge bg-warning">Prenotato</span>
+                            {% elif loan['status'] == 1 %}
+                            <span class="badge bg-info">In prestito</span>
+                            {% elif loan['status'] == 2 %}
+                            <span class="badge bg-success">Restituito</span>
+                            {% elif loan['status'] == 3 %}
+                            <span class="badge bg-danger">Annullato</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if loan['status'] == 0 %}
+                            <form method="post" action="{{ url_for('dismiss_loan', loan_id=loan['id']) }}">
                                 <div class="d-flex">
-                                    <button type="submit" name="action" value="update" class="btn btn-outline-secondary"
-                                        disabled>Annulla
+                                    <input type="hidden" name="action" value="dismiss_loan">
+                                    <button type="submit" name="action" value="update" class="btn btn-danger">Annulla
                                         prenotazione</button>
                                 </div>
-                                {% endif %}
-                            </td>
+                            </form>
+                            {% else %}
+                            <div class="d-flex">
+                                <button type="submit" name="action" value="update" class="btn btn-outline-secondary"
+                                    disabled>Annulla
+                                    prenotazione</button>
+                            </div>
+                            {% endif %}
+                        </td>
 
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-            {% endif %}
+        {% endif %}
 
     </div>
 

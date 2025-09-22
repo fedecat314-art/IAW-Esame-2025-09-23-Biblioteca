@@ -864,28 +864,27 @@ def return_loan(loan_id: int):
             current_date = date.today()
             # utente
             if current_user.role == 0:
-                loan_user = loans_dao.get_loans_by_user(current_user.id)
-                for loan in loan_user:
-                    data_inizio = datetime.strptime(loan['start_date'],"%Y-%m-%d").date()
-                    data_fine = datetime.strptime(loan["due_date"], "%Y-%m-%d").date()
-                    # restituzione del libro se il prestito è attivo
-                    if loan["status"] == 1 and loan["id"] == loan_id and data_inizio <= current_date <= data_fine:
-                        loans_dao.return_loan(loan["id"])
-                        # update dello status nel db a 2 (restituito)
-                        loans_dao.loan_update_status(loan["id"], 2)
-                        # aumento il numero di copie disponibili del libro
-                        books_dao.increase_book_available_copies(loan["book_id"])
-                        # calcolo dei giorni di ritardo
-                        ritardo = (current_date - data_fine).days
-                        if ritardo > 0:
-                            flash(
-                                f"Libro restituito con successo. Hai un ritardo di {ritardo} giorni.",
-                                "warning",
-                            )
-                        else:
-                            flash("Libro restituito con successo.", "success")
+                loan = loans_dao.get_loan_by_id(loan_id)
+                data_inizio = datetime.strptime(loan['start_date'],"%Y-%m-%d").date()
+                data_fine = datetime.strptime(loan["due_date"], "%Y-%m-%d").date()
+                # restituzione del libro se il prestito è attivo
+                if loan["status"] == 1 and data_inizio <= current_date:
+                    loans_dao.return_loan(loan["id"])
+                    # update dello status nel db a 2 (restituito)
+                    loans_dao.loan_update_status(loan["id"], 2)
+                    # aumento il numero di copie disponibili del libro
+                    books_dao.increase_book_available_copies(loan["book_id"])
+                    # calcolo dei giorni di ritardo
+                    ritardo = (current_date - data_fine).days
+                    if ritardo > 0:
+                        flash(
+                            f"Libro restituito con successo. Hai un ritardo di {ritardo} giorni.",
+                            "warning",
+                        )
+                    else:
+                        flash("Libro restituito con successo.", "success")
 
-                        return redirect(url_for("profile"))
+            return redirect(url_for("profile"))
 
 
 @app.route("/start_loan/<int:loan_id>", methods=["POST"])
