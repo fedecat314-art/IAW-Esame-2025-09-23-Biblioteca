@@ -142,8 +142,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="genre" class="form-label">Genere</label>
-                        <input type="text" class="form-control" id="genre" name="genre"
-                            value="{{ book_specifico.genre }}" required>
+                        <select class="form-select" id="genre" name="genre" required>
+                            {% for genre in all_genres %}
+                            <option value="{{ genre.id }}" {% if genre.id==book_specifico.genre %}selected{% endif %}>{{
+                                genre.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="publication_year" class="form-label">Anno di pubblicazione</label>
