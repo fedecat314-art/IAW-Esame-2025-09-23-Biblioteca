@@ -119,30 +119,6 @@ def get_book_by_id(book_id: int):
     return None
 
 
-def update_total_copies(book_id: int, new_total: int):
-    """
-    Aggiorna il numero di copie totali di un libro
-
-    Parameters:
-        book_id (int): ID del libro
-        new_copies (int): Nuovo numero di copie totali
-    """
-
-    query = "UPDATE books SET total_copies = ? WHERE id = ?"
-
-    conn = sqlite3.connect(ROOT_PATH + DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        query,
-        (
-            new_total,
-            book_id,
-        ),
-    )
-    conn.commit()
-    cursor.close()
-    conn.close()
-
 
 def remove_book(book_id: int):
 

@@ -26,26 +26,6 @@ def get_all_genres():
     return [{"id": genre[0], "name": genre[1]} for genre in genres]
 
 
-def get_most_read_genres(n):
-
-    query = """ 
-    SELECT genres.*, COUNT (loans.id) as loancount
-    FROM genres
-    JOIN books ON genres.id=books.genre
-    JOIN loans ON books.id=loans.book_id
-    GROUP BY genres.id 
-    ORDER BY loancount DESC
-    LIMIT ?
-    """
-    conn = sqlite3.connect(ROOT_PATH + DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(query, (n,))
-    most_read_genres = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
-    return [{"id": genre[0], "name": genre[1]} for genre in most_read_genres]
-
 
 def get_genre_by_id(genre_id: int):
     """

@@ -1,6 +1,7 @@
 .card-description {
   display: -webkit-box;
   -webkit-line-clamp: 3;   /* numero di righe da mostrare */
+  line-clamp: 3;           /* proprietà standard per compatibilità */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

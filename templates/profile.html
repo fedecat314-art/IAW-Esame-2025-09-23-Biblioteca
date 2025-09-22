@@ -90,8 +90,10 @@
             {% if loan['status'] == 0 or loan['status'] == 1 %}
             <div class="col">
                 <div class="card h-100 rounded-0">
-                    <img src="{{ url_for('static', filename=loan.book_cover) }}"
-                        class="card-img-top rounded-0 object-fit-contain" alt="immagine">
+                    <a href="{{ url_for('book', id=loan['book_id']) }}">
+                        <img src="{{ url_for('static', filename=loan.book_cover) }}"
+                            class="card-img-top rounded-0 object-fit-contain" alt="immagine">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title">{{loan.book_title}}</h5>
                         <p class="card-text">{{loan.book_author}}</p>
@@ -140,17 +142,19 @@
         </div>
 
 
-        
+
         <div class="text-start mt-5">
             <h3>Le tue letture precedenti</h3>
         </div>
         <div class="row row-cols-2 row-cols-md-5 row-cols-lg-9 g-4">
-            
+
             {% for loan in loans %}
             {% if loan['status'] == 2 %}
             <div class="col">
                 <div class="card h-100 rounded-0">
-                    <img src="{{ url_for('static', filename=loan.book_cover) }}" class="card-img-top rounded-0 object-fit-contain" alt="">
+                    <a href="{{ url_for('book', id=loan.book_id) }}">
+                        <img src="{{ url_for('static', filename=loan.book_cover) }}"
+                            class="card-img-top rounded-0 object-fit-contain" alt=""></a>
                     <div class="card-body">
                         <h5 class="card-title">{{loan.book_title}}</h5>
                         <p class="card-text">{{loan.book_author}}</p>
