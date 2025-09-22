@@ -65,13 +65,11 @@ def home():
 
     random_books = books_dao.get_random_books(5)
     most_read_books = books_dao.get_most_read_books(5)
-    most_read_genres = genres_dao.get_most_read_genres(5)
 
     return render_template(
         "index.html",
         random_books=random_books,
         most_read_books=most_read_books,
-        most_read_genres=most_read_genres,
     )
 
 
@@ -290,75 +288,6 @@ def book(id: int):
             loan_count_specifico=loan_count_specifico,
             all_genres=all_genres
         )
-
-
-# @app.route("/update_book/<int:id>", methods=["POST"])
-# @login_required
-# def update_book(id: int):
-#     if current_user.role != 1:
-#         flash("Non autorizzato", "danger")
-#         return redirect(url_for("catalogue"))
-
-#     book = books_dao.get_book_by_id(id)
-#     if not book:
-#         flash("Libro non trovato", "danger")
-#         return redirect(url_for("catalogue"))
-
-#     title = request.form.get("title")
-#     author = request.form.get("author")
-#     genre = request.form.get("genre")
-#     publication_year = request.form.get("publication_year")
-#     description = request.form.get("description")
-#     total_copies = request.form.get("total_copies")
-#     cover_file = request.files.get("cover")
-
-#     if (
-#         not title
-#         or not author
-#         or not genre
-#         or not publication_year
-#         or not description
-#         or not total_copies
-#     ):
-#         flash("Tutti i campi sono obbligatori", "danger")
-#         return redirect(url_for("update_book", id=id))
-
-#     # Aggiorna copertina se è stata caricata una nuova immagine
-#     if cover_file and cover_file.filename:
-#         os.makedirs(f"{ROOT_PATH}static/images/uploads", exist_ok=True)
-#         os.makedirs(f"{ROOT_PATH}static/images/covers", exist_ok=True)
-#         img = Image.open(cover_file.stream)
-#         max_size = (800, 800)
-#         img.thumbnail(max_size, Image.Resampling.LANCZOS)
-#         if img.mode in ("RGBA", "LA"):
-#             if "A" in img.mode:
-#                 img = img.convert("RGB")
-#             else:
-#                 background = Image.new("RGB", img.size, (255, 255, 255))
-#                 background.paste(img)
-#                 img = background
-#         elif img.mode != "RGB" and img.mode != "RGBA":
-#             img = img.convert("RGB")
-
-#         final_filename = f"book_{id}.jpg"
-#         final_image_path = f"images/covers/{final_filename}"
-#         img.save(f"{ROOT_PATH}static/{final_image_path}", "JPEG", quality=85)
-#         books_dao.update_book_cover(id, final_image_path)
-
-#     # Aggiorna gli altri dettagli del libro
-#     books_dao.update_book_details(
-#         id,
-#         title,
-#         author,
-#         int(genre),
-#         int(publication_year),
-#         description,
-#         int(total_copies),
-#     )
-
-#     flash("Libro aggiornato con successo!", "success")
-#     return redirect(url_for("book", id=id))
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -765,8 +694,6 @@ def new_loan(book_id: int):
                             )
                         return redirect(url_for("book", id=book_specifico["id"]))
                     # se il libro non è prenotato o in prestito dallo stesso utente, procedo
-                    #elif current_user.id != loan["user_id"] or loan["status"] not in [0, 1,]:
-                
                 
                 loans_dao.new_loan(
                     current_user.id,
@@ -911,16 +838,6 @@ def start_loan(loan_id: int):
                         loans_dao.loan_update_status(loan["id"], 1)
 
                         return redirect(url_for("profile"))
-                    
-
-
-                #    data_inizio = datetime.strptime(loan['start_date'],"%Y-%m-%d").date()
-                #    # data ultima per ritirare il libro
-                #    data_ultima = data_inizio + timedelta(days=1)
-                    
-                #    if loan["status"] == 0 and loan["id"] == loan_id and data_inizio <= current_date <= data_ultima:
-                #        loans_dao.loan_update_status(loan["id"], 1)
-                        
 
 
 if __name__ == "__main__":

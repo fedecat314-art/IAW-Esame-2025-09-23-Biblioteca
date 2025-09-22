@@ -57,8 +57,8 @@
                 <div class="card rounded-0 h-100">
                     <div class="">
                         <a href="{{ url_for('book', id=b.id) }}">
-                            <img src="{{ url_for('static', filename=b.cover) }}" class="card-img-top rounded-0"
-                                alt="immagine" style="object-fit: contain;">
+                            <img src="{{ url_for('static', filename=b.cover) }}"
+                                class="card-img-top rounded-0 object-fit-contain" alt="immagine">
                         </a>
                     </div>
                     <div class="card-body">
@@ -74,7 +74,8 @@
                                 di più</a></p>
                         {% elif current_user.role == 1 %}
                         <p><a href="{{ url_for('book', id=b.id)}}"
-                                class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Visualizza</a></p>
+                                class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Visualizza</a>
+                        </p>
                         {% endif %}
                     </div>
                 </div>
