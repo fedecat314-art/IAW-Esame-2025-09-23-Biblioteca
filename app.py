@@ -792,57 +792,58 @@ def dismiss_loan(loan_id: int):
             current_date = date.today()
             # utente
             if current_user.role == 0:
-                loan_user = loans_dao.get_loans_by_user(current_user.id)
-                for loan in loan_user:
-                    data_inizio = datetime.strptime(
-                        loan["start_date"], "%Y-%m-%d"
-                    ).date()
-                    data_annullamento_user = data_inizio - timedelta(days=1)
-                    # annullamento della prenotazione se non è ancora iniziata (possibile solo se manca almeno 1 giorno all'inizio del prestito)
-                    if (
-                        current_date <= data_annullamento_user
-                        and loan["status"] == 0
-                        and loan["id"] == loan_id
-                    ):
-                        loans_dao.loan_dismiss(loan["id"])
-                        # update dello status nel db a 3 (annullato)
-                        loans_dao.loan_update_status(loan["id"], 3)
-                        # aumento il numero di copie disponibili del libro
-                        books_dao.increase_book_available_copies(loan["book_id"])
-                        flash("Prenotazione annullata con successo", "success")
+                loan = loans_dao.get_loan_by_id(loan_id)
+                data_inizio = datetime.strptime(
+                    loan["start_date"], "%Y-%m-%d"
+                ).date()
+                data_annullamento_user = data_inizio - timedelta(days=1)
+                # annullamento della prenotazione se non è ancora iniziata (possibile solo se manca almeno 1 giorno all'inizio del prestito)
+                if (
+                    current_date <= data_annullamento_user
+                    and loan["status"] == 0
+                ):
+                    loans_dao.loan_dismiss(loan["id"])
+                    # update dello status nel db a 3 (annullato)
+                    loans_dao.loan_update_status(loan["id"], 3)
+                    # aumento il numero di copie disponibili del libro
+                    books_dao.increase_book_available_copies(loan["book_id"])
+                    flash("Prenotazione annullata con successo", "success")
 
-                        return redirect(url_for("profile"))
+                    return redirect(url_for("profile"))
 
-                    elif current_date > data_annullamento_user and loan["status"] == 0:
-                        flash("Tempo limite per l'annullamento scaduto", "danger")
-                        return redirect(url_for("profile"))
+                elif current_date > data_annullamento_user and loan["status"] == 0:
+                    flash("Tempo limite per l'annullamento scaduto", "danger")
+                    return redirect(url_for("profile"))
 
             # bibliotecario
             elif current_user.role == 1:
-                loans = loans_dao.get_all_loans()
-                for loan in loans:
-                    data_inizio = datetime.strptime(
-                        loan["start_date"], "%Y-%m-%d"
-                    ).date()
-                    data_annullamento_bibliotecario = data_inizio + timedelta(days=1)
+                loan = loans_dao.get_loan_by_id(loan_id)
+                
+                data_inizio = datetime.strptime(
+                    loan["start_date"], "%Y-%m-%d"
+                ).date()
+                
+                data_annullamento_bibliotecario = data_inizio + timedelta(days=1)
+                
+                logger.warning(current_date)
+                logger.warning(data_annullamento_bibliotecario) 
 
-                    # annullamento del prestito se attivo ma non ancora ritirato (possibile solo se lettore non ha ritirato il libro dopo 2 giorno dall'inizio del prestito)
-                    if (
-                        current_date >= data_annullamento_bibliotecario
-                        and loan["status"] == 0
-                    ):
-                        if loan["id"] == loan_id:
-                            loans_dao.loan_dismiss(loan["id"])
-                            # update dello status nel db a 3 (annullato)
-                            loans_dao.loan_update_status(loan["id"], 3)
-                            # aumento il numero di copie disponibili del libro
-                            books_dao.increase_book_available_copies(loan["book_id"])
-                            flash("Prenotazione annullata con successo", "success")
+                # annullamento del prestito se attivo ma non ancora ritirato (possibile solo se lettore non ha ritirato il libro dopo 2 giorno dall'inizio del prestito)
+                if (
+                    current_date >= data_annullamento_bibliotecario
+                    and loan["status"] == 0
+                ):
+                    loans_dao.loan_dismiss(loan["id"])
+                    # update dello status nel db a 3 (annullato)
+                    loans_dao.loan_update_status(loan["id"], 3)
+                    # aumento il numero di copie disponibili del libro
+                    books_dao.increase_book_available_copies(loan["book_id"])
+                    flash("Prenotazione annullata con successo", "success")
 
-                            return redirect(url_for("profile"))
-                    else:
-                        flash("Non puoi annullare questa prenotazione", "danger")
-                        return redirect(url_for("profile"))
+                    return redirect(url_for("profile"))
+                else:
+                    flash("Non puoi annullare questa prenotazione", "danger")
+                    return redirect(url_for("profile"))
 
     return redirect(url_for("profile"))
 

@@ -167,34 +167,34 @@ default_books = [
 
 default_loans = [
     # Settimana 1 (1-7 settembre)
-    (3, 1, "2025-09-02", "2025-09-16", None, 1),  # attivo
-    (4, 2, "2025-09-03", "2025-09-17", None, 1),  # attivo
-    (5, 3, "2025-09-05", "2025-09-19", None, 0),  # prenotato
+    (3, 1, "2025-09-02", "2025-09-16", None, 2),  # restituito
+    (4, 2, "2025-09-03", "2025-09-17", None, 2),  # restituito
+    (5, 3, "2025-09-05", "2025-09-19", None, 2),  # restituito
 
     # Settimana 2 (8-14 settembre)
-    (6, 4, "2025-09-09", "2025-09-23", None, 1),  # attivo
-    (7, 5, "2025-09-10", "2025-09-24", None, 1),  # attivo
-    (3, 6, "2025-09-12", "2025-09-26", None, 0),  # prenotato
+    (6, 4, "2025-09-09", "2025-09-23", None, 2),  # restituito
+    (7, 5, "2025-09-10", "2025-09-24", None, 3),  # annullato
+    (3, 6, "2025-09-12", "2025-09-26", None, 3),  # annullato
 
     # Settimana 3 (15-21 settembre)
-    (4, 7, "2025-09-15", "2025-09-29", None, 1),  # attivo
-    (5, 8, "2025-09-16", "2025-09-30", None, 1),  # attivo
-    (6, 9, "2025-09-18", "2025-10-02", None, 0),  # prenotato
+    (4, 7, "2025-09-15", "2025-09-29", None, 2),  # restituito
+    (5, 8, "2025-09-16", "2025-09-30", None, 3),  # annullato
+    (6, 9, "2025-09-18", "2025-10-02", None, 0),  # prenotato (annullabile se bibliotecario)
 
     # Settimana 4 (22-28 settembre)
-    (7, 10, "2025-09-22", "2025-10-06", None, 1),  # attivo
-    (3, 11, "2025-09-23", "2025-10-07", None, 1),  # attivo
-    (4, 12, "2025-09-25", "2025-10-09", None, 0),  # prenotato
+    (7, 10, "2025-09-22", "2025-10-06", None, 1),  # attivo (restuiituibile se utente)
+    (3, 11, "2025-09-23", "2025-10-07", None, 1),  # attivo (se utente lo ritira)
+    (4, 12, "2025-09-25", "2025-10-09", None, 0),  # prenotato (annullabile se utente)
 
     # Prestiti extra su generi diversi e altri libri
-    (5, 13, "2025-09-04", "2025-09-18", None, 1),  # attivo
+    (5, 13, "2025-09-04", "2025-09-18", None, 2),  # attivo
     (6, 14, "2025-09-11", "2025-09-25", None, 1),  # attivo
     (7, 15, "2025-09-17", "2025-10-01", None, 1),  # attivo
     (3, 16, "2025-09-24", "2025-10-08", None, 0),  # prenotato
-    (4, 17, "2025-09-26", "2025-10-10", None, 1),  # attivo
-    (5, 18, "2025-09-28", "2025-10-12", None, 1),  # attivo
+    (4, 17, "2025-09-26", "2025-10-10", None, 0),  # prenotato
+    (5, 18, "2025-09-28", "2025-10-12", None, 0),  # prenotato
     (6, 19, "2025-09-29", "2025-10-13", None, 0),  # prenotato
-    (7, 20, "2025-09-30", "2025-10-14", None, 1),  # attivo
+    (7, 20, "2025-09-30", "2025-10-14", None, 0),  # prenotato
 ]
 
 

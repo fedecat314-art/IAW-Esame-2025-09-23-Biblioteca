@@ -49,7 +49,7 @@ def get_loan_by_id(loan_id: int):
     conn.close()
 
     if loan:
-        return {"id": loan[0], "user_id": loan[1]}
+        return {"id": loan[0], "user_id": loan[1], "book_id": loan[2], "start_date": loan[3], "due_date": loan[4], "return_date": loan[5], "status": loan[6]}
 
     return None
 

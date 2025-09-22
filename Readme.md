@@ -147,65 +147,6 @@ flask run --debug
 
 ## Repository Github
 
-pagine app
-
-home: libri nuovi/più letti + breve catalogo RICONTROLLA CAROSELLI con responsive
-catalogo: tutti i libri + filtri
-profilo: utente/bibiotecario gestione prestiti
-      profilo utente: visualizzazione pronotazioni (max 3 libri) + bottone per restituire subito il libro
-      profilo bibliotecario: visualizzazione prestiti attivi, stats libri, gestione prenotazioni, gestione libri (aggiungi/togli dal catalogo)
-
-login FATTO
-sign up FATTO
-dettaglio libro SISTEMARE
-nuova prenotazione: form per scegliere data di inizio/fine prestito (mag 14 gg)
-modifica prenotazione
-
-foto libro-titolo-autore
-
-completa pagine
-
-se si prova a prenotare senza login/accesso fare modale o simile che ti dice di fare l'accesso o l'account
-
-passo 2:
-dao + app.py (metti tutti dati in return + logiche varie)
-
-
-
-
-
-DA FARE:
-
-sistemare la pagina del profilo utente/bibliotecario FATTO
-aggiungere logica a tutte le pagine FATTO
-nella prenotazione aggiungere nota nel modale FATTO
-nel catalogo aggiungere inizio descrizione nelle cards
-sistemare e far funzionare filtri e barra ricerca FATTO
-in book aggiungere descrizione + logica prenotazione (far rilevare prenotazione + data riconsegna) FATTO
-ricorda di inserire il max di libri  FATTO
-annullamento prenotazione almeno 24 ore prima dell'inizio FATTO
-inserire data inizio/fine prestito nella sezione profilo lettore FATTO
-
-
-
-
-
-TEST:
-1984, gatsby, da vinci, cent'anni, metamorfosi
-fiction, fiction, mistery, fiction, fiction
-
-
-DA FARE ASSOLUTAMENTE (21/09)
-sistemare password per signup che non funziona FATTO
-sistemare return
-passata la data di fine prestito segnare come restituito???? quando il prestito inzia devo far cambiare status da 0 a 1
-fare descrizione che si ferma a metà e poi apri e vedi tutto
-evitare di superare numero di copie disponibili  FATTO (?)
-
-
-TECNICAMENTE BACKEND FINITO
-
-
 
 POSSIBILI NOMI: digital tales, 
 
