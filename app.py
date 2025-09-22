@@ -578,9 +578,10 @@ def profile():
                     and loan['status'] == 2
                 ):
                     recommended_books.append(book)
+                    logger.warning(recommended_books)
 
         # mostra solo i primi 6 consigliati
-        template_data["recommended_books"] = recommended_books[:6]
+        template_data["recommended_books"] = recommended_books
 
     elif current_user.role == 1:
         loans_raw = loans_dao.get_all_loans()

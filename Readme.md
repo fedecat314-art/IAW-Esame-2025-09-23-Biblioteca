@@ -146,22 +146,3 @@ flask run --debug
 
 
 ## Repository Github
-
-
-POSSIBILI NOMI: digital tales, 
-
-
-DESCRIZIONE HERO: 
-1) Benvenuti nella nostra Biblioteca Digitale
-La tua porta d’accesso a un mondo infinito di conoscenza, cultura e intrattenimento. La nostra biblioteca digitale offre una vasta collezione di libri, riviste, documenti storici e risorse multimediali, comodamente accessibili ovunque e in qualsiasi momento. Che tu sia uno studente, un ricercatore o un appassionato lettore, qui troverai materiale aggiornato e di qualità, con strumenti intuitivi per facilitare la ricerca e la lettura. Scopri il piacere di leggere senza confini, esplora nuovi argomenti e arricchisci il tuo sapere con un semplice click.
-
-2) Benvenuto nella nostra Biblioteca!
-Un luogo accogliente dove puoi scoprire libri, riviste, film e tanto altro, da sfogliare, leggere e prendere in prestito. Qui troverai uno spazio tranquillo per studiare, incontrare amici o partecipare a eventi e attività pensate per tutte le età. Che tu sia un lettore appassionato o semplicemente curioso, la nostra biblioteca è pronta ad accoglierti con tante risorse e tanta voglia di condividere storie e conoscenza. Vieni a trovarci, la cultura ti aspetta!
-
-3) Benvenuto nella nostra Biblioteca!
-Un luogo dove ogni passione trova il suo spazio: dai romanzi avvincenti ai testi universitari, dai manuali tecnici alle opere di ogni genere. Qui puoi sfogliare, leggere e prendere in prestito tantissimi libri, in un ambiente accogliente e tranquillo, ideale per studiare, approfondire o semplicemente lasciarti ispirare. La nostra biblioteca è pensata per tutti: studenti, professionisti, appassionati e curiosi. Vieni a scoprire il piacere della lettura e della conoscenza, ti aspettiamo con tante risorse e un sorriso!
-
-4) Benvenuti nella nostra Biblioteca
-La nostra biblioteca rappresenta un punto di riferimento culturale e formativo, offrendo una vasta collezione di volumi che spaziano dalla narrativa ai testi universitari e tecnici, fino a opere di ogni genere e disciplina. In un ambiente accogliente e silenzioso, mettiamo a disposizione degli utenti risorse di qualità per lo studio, la ricerca e l’approfondimento personale. Rivolta a studenti, professionisti e appassionati di lettura, la nostra struttura si impegna a favorire la diffusione della conoscenza e della cultura, promuovendo l’accesso libero e consapevole al sapere. Vi invitiamo a visitare la biblioteca per scoprire tutte le opportunità che offre.
-
-pensare a colori + font + OCCHIO ALLE DIMENSIONI PER RESPONSIVE

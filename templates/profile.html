@@ -140,15 +140,15 @@
         </div>
 
 
-        {% for loan in loans %}
-        {% if loan['status'] == 2 %}
+        
         <div class="text-start mt-5">
             <h5>Le tue letture precedenti</h5>
         </div>
         <div class="row row-cols-2 row-cols-md-5 row-cols-lg-9 g-4">
 
             
-            
+            {% for loan in loans %}
+            {% if loan['status'] == 2 %}
             <div class="col">
                 <div class="card h-100 rounded-0">
                     <div class="ratio ratio-1x1">
@@ -162,12 +162,12 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
 
 
-        {% if book in recommended_books %}
+        {% if recommended_books|length %}
         <div class="text-start mt-5">
             <h5>In base alle tue letture precedenti ti consigliamo:</h5>
         </div>

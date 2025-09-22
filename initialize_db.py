@@ -183,7 +183,7 @@ default_loans = [
 
     # Settimana 4 (22-28 settembre)
     (7, 10, "2025-09-22", "2025-10-06", None, 1),  # attivo (restuiituibile se utente)
-    (3, 11, "2025-09-23", "2025-10-07", None, 1),  # attivo (se utente lo ritira)
+    (3, 11, "2025-09-23", "2025-10-07", None, 0),  # attivo (se utente lo ritira)
     (4, 12, "2025-09-25", "2025-10-09", None, 0),  # prenotato (annullabile se utente)
 
     # Prestiti extra su generi diversi e altri libri
