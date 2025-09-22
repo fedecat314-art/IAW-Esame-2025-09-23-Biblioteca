@@ -5,30 +5,46 @@
 {% block content %}
 
 <div class="container py-5">
-    <div class="row justify-content-center gap-5">
+    <div class="row justify-content-center gap-3">
         <div class="col-md-5 col-lg-5 ">
             <figure class="figure m-5">
                 <img src="{{ url_for('static', filename=book_specifico['cover']) }}" class="figure-img img-fluid w-90"
-                    alt="...">
+                    alt="{{book_specifico.title}}">
             </figure>
+
+            {% if current_user.is_authenticated and current_user.role == 1 %}
+            <div class="d-flex justify-content-center gap-3">
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#editProfileModal">
+                    <i class="bi bi-pencil-square me-1"></i> Modifica dati
+                </button>
+                <form method="POST" action="{{ url_for('book', id=book_specifico.id) }}">
+                    <input type="hidden" name="action" value="delete">
+                    <button type="submit" class="btn btn-danger">Rimuovi libro</button>
+                </form>
+            </div>
+            {% endif %}
+
         </div>
         <div class="col-md-5 col-lg-4 order-md-last mt-5">
-            <h4 class="d-flex justify-content-between align-items-center mb-3"> <span
-                    class="text">{{book_specifico.title}}</span></h4>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">{{book_specifico.title}} -
+                {{book_specifico.author}} ({{book_specifico.publication_year}})</h4>
+
+            <!-- add a link to the search for the specific genre -->
+            <div class="mb-3">
+                <a href="{{ url_for('catalogue', genre=genere.id) }}" class="text-decoration-none">
+                    <span class="badge bg-info">{{genere.name}}</span>
+                </a>
+            </div>
+
             <p>{{book_specifico.description}}</p>
-
-
-            <!--IO HO RISOLTO CON BOOK_SPECIFICO CHE è UN DIZIONARIO PRESO DA BOOK_DAO A CUI SI APPLICA LA FUNZIONE GET_BOOK_BY_ID A CUI HO FATTO RESTITUIRE COME RISULTATO IL DIZIONARIO DI OGNI LIBRO, COME FA LA FUNZIONE GET_ALL_BOOKS QUINDI, ALTRIMENTI NON FUNZIONA, QUINDI O HO SBAGLIATO IO A USARE GET BY ID O UNA DELLE DUE è INUTILE-->
 
             {% if current_user.is_authenticated %}
             {% if current_user.role == 0 %}
             {% if book_specifico.available_copies != 0 %}
-            <!-- Button trigger modal -->
             <button type="button" class="btn btn-success w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Prenota
             </button>
-
-
             {% else %}
             <p class="text dark-text-emphasis">Al momento non ci sono copie disponibili</p>
             <button type="button" class="btn btn-success w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
@@ -36,35 +52,34 @@
                 Prenota
             </button>
             {% endif %}
-
-
-
-            {% elif current_user.role == 1 %}
-            <!-- Trigger modal cambio dati -->
-            <div class="mt-4 d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                    data-bs-target="#editProfileModal">
-                    <i class="bi bi-pencil-square me-1"></i> Modifica dati
-                </button>
-            </div>
-
-
-            <p>{{book_specifico.title}} è stato prestato {{loan_count_specifico[0]['loans_count'] if
-                loan_count_specifico else
-                0}} volte</p>
-
-            <form method="POST" action="{{ url_for('book', id=book_specifico.id) }}">
-                <div class="d-flex">
-                    <input type="hidden" name="action" value="delete">
-                    <button type="submit" class="btn btn-danger">Rimuovi libro</button>
-                </div>
-            </form>
             {% endif %}
-
             {% else %}
             <a class="btn btn-outline-secondary" href="{{ url_for('login') }}">Prenota</a>
             {% endif %}
+        </div>
+    </div>
 
+    <hr>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h5>Dettagli</h5>
+            <ul class="list-unstyled">
+                <li><strong>Autore:</strong> {{book_specifico.author}}</li>
+                <li><strong>Anno di pubblicazione:</strong> {{book_specifico.publication_year}}</li>
+                <li><strong>Genere:</strong> {{genere.name}}</li>
+                <li><strong>Copie totali:</strong> {{book_specifico.total_copies}}</li>
+                <li><strong>Copie disponibili:</strong> {{book_specifico.available_copies}}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h5>Statistiche</h5>
+            <ul class="list-unstyled">
+                <li><strong>Numero di prestiti attivi:</strong> {{active_loan_count[0]['active_loans'] if
+                    active_loan_count else 0}}</li>
+                <li><strong>Numero totale di prestiti:</strong> {{loan_count_specifico[0]['loans_count'] if
+                    loan_count_specifico else 0}}</li>
+            </ul>
         </div>
     </div>
 </div>
@@ -113,7 +128,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ url_for('book', id = book_specifico.id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url_for('book', id = book_specifico.id) }}" method="POST"
+                    enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="title" class="form-label">Titolo</label>
                         <input type="text" class="form-control" id="title" name="title"
@@ -158,7 +174,6 @@
         </div>
     </div>
 </div>
-
 
 {% endblock %}
 
