@@ -12,8 +12,8 @@
                     alt="{{book_specifico.title}}">
             </figure>
 
-            {% if current_user.is_authenticated and current_user.role == 1 %}
             <div class="d-flex justify-content-center gap-3">
+                {% if current_user.is_authenticated and current_user.role == 1 %}
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                     data-bs-target="#editProfileModal">
                     <i class="bi bi-pencil-square me-1"></i> Modifica dati
@@ -22,8 +22,26 @@
                     <input type="hidden" name="action" value="delete">
                     <button type="submit" class="btn btn-danger">Rimuovi libro</button>
                 </form>
+                {% else %}
+                {% if current_user.role == 0 %}
+                {% if book_specifico.available_copies != 0 %}
+                <button type="button" class="btn btn-success w-75" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
+                    Prenota
+                </button>
+                {% else %}
+                <p class="text dark-text-emphasis">Al momento non ci sono copie disponibili</p>
+                <button type="button" class="btn btn-success w-75" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop" disabled>
+                    Prenota
+                </button>
+                {% endif %}
+                {% else %}
+                <a class="btn btn-outline-secondary" href="{{ url_for('login') }}">Prenota</a>
+                {% endif %}
+                {% endif %}
             </div>
-            {% endif %}
+
 
         </div>
         <div class="col-md-5 col-lg-4 order-md-last mt-5">
@@ -39,23 +57,6 @@
 
             <p>{{book_specifico.description}}</p>
 
-            {% if current_user.is_authenticated %}
-            {% if current_user.role == 0 %}
-            {% if book_specifico.available_copies != 0 %}
-            <button type="button" class="btn btn-success w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Prenota
-            </button>
-            {% else %}
-            <p class="text dark-text-emphasis">Al momento non ci sono copie disponibili</p>
-            <button type="button" class="btn btn-success w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                disabled>
-                Prenota
-            </button>
-            {% endif %}
-            {% endif %}
-            {% else %}
-            <a class="btn btn-outline-secondary" href="{{ url_for('login') }}">Prenota</a>
-            {% endif %}
         </div>
     </div>
 

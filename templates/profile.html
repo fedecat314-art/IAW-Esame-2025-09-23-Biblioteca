@@ -215,7 +215,8 @@
                         <tr>
                             <td>{{loan['id']}}</td>
                             <td>{{loan['user_username']}}</td>
-                            <td>{{loan['book_title']}}</td>
+                            <!-- book link shouldn't be blue, only have the underline -->
+                            <td><a href="{{ url_for('book', id=loan['book_id']) }}" class="text-decoration-underline text-black">{{loan['book_title']}}</a></td>
                             <td>{{loan['start_date']}}</td>
                             <td>{{loan['due_date']}}</td>
                             <td>
