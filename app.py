@@ -765,7 +765,7 @@ def new_loan(book_id: int):
                             )
                         return redirect(url_for("book", id=book_specifico["id"]))
                     # se il libro non è prenotato o in prestito dallo stesso utente, procedo
-                    #elif current_user.id != loan["user_id"] or loan["status"] not in [0, 1,]:
+
                 
                 
                 loans_dao.new_loan(
@@ -914,12 +914,6 @@ def start_loan(loan_id: int):
                     
 
 
-                #    data_inizio = datetime.strptime(loan['start_date'],"%Y-%m-%d").date()
-                #    # data ultima per ritirare il libro
-                #    data_ultima = data_inizio + timedelta(days=1)
-                    
-                #    if loan["status"] == 0 and loan["id"] == loan_id and data_inizio <= current_date <= data_ultima:
-                #        loans_dao.loan_update_status(loan["id"], 1)
                         
 
 

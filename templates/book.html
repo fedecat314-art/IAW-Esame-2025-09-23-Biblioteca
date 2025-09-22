@@ -48,7 +48,7 @@
             <h4 class="d-flex justify-content-between align-items-center mb-3">{{book_specifico.title}} -
                 {{book_specifico.author}} ({{book_specifico.publication_year}})</h4>
 
-            <!-- add a link to the search for the specific genre -->
+            
             <div class="mb-3">
                 <a href="{{ url_for('catalogue', genre=genere.id) }}" class="text-decoration-none">
                     <span class="badge bg-info">{{genere.name}}</span>

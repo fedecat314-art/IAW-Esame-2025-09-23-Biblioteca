@@ -142,7 +142,4 @@ flask run --debug
 - **Lettore 7**: noveladdict - Read2025!
 
 ## Indirizzo pubblico
-
-
-
-## Repository Github
+catapax.pythonanywhere.com
