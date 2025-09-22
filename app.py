@@ -281,12 +281,14 @@ def book(id: int):
         loan_count_specifico = loans_dao.get_loans_count_by_book(book_specifico["id"])
         # prendo tutti i dati dei prestiti del libro specifico
         loan_book_specifico = loans_dao.get_loans_by_book(book_specifico["id"])
+        all_genres = genres_dao.get_all_genres()
 
         return render_template(
             "book.html",
             book_specifico=book_specifico,
             genere=genere,
             loan_count_specifico=loan_count_specifico,
+            all_genres=all_genres
         )
 
 

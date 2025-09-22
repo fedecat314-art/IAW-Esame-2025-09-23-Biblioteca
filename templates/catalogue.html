@@ -14,7 +14,7 @@
             <form class="d-flex align-items-center" method="get" action="{{ url_for('catalogue') }}">
                 <input class="form-control me-2" type="search" name="search" placeholder="Cerca titolo o autore"
                     aria-label="Search">
-                <button class="btn" type="submit">Cerca</button>
+                <button class="btn btn-dark" type="submit">Cerca</button>
             </form>
 
             <!-- Filtro per genere -->
@@ -74,8 +74,7 @@
                                 di più</a></p>
                         {% elif current_user.role == 1 %}
                         <p><a href="{{ url_for('book', id=b.id)}}"
-                                class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Visualizza
-                                info</a></p>
+                                class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Visualizza</a></p>
                         {% endif %}
                     </div>
                 </div>
