@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Catalogo{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+
+
+        <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+            <!-- Campo di ricerca -->
+            <form class="d-flex align-items-center" method="get" action="{{ url_for('catalogue') }}">
+                <input class="form-control me-2" type="search" name="search" placeholder="Cerca titolo o autore"
+                    aria-label="Search">
+                <button class="btn" type="submit">Cerca</button>
+            </form>
+
+            <!-- Filtro per genere -->
+            <form class="d-flex align-items-center" method="get" action="{{ url_for('catalogue') }}">
+                <label for="genreFilter" class="form-label me-2 mb-0">Genere</label>
+                <select id="genreFilter" name="genre" class="form-select" onchange="this.form.submit()">
+                    <option value="" selected>Tutti</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            {% if current_user.role == 1 %}
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                    <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4">
+                    </path>
+                </svg>
+                Aggiungi libro
+            </button>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+    <!--CARDS LIBRI-->
+
+    <div class="row justify-content-center">
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 m-3">
+            {% for b in books %}
+            <!--singolo libro-->
+            <div class="col" id="card">
+                <div class="card rounded-0 h-100">
+                    <div class="">
+                        <a href="{{ url_for('book', id=b.id) }}">
+                            <img src="{{ url_for('static', filename=b.cover) }}" class="card-img-top rounded-0"
+                                alt="immagine" style="object-fit: contain;">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{b.title}}</h5>
+                        <p>{{b.author}}</p>
+                        <p>{{b.publication_year}}</p>
+                        <p>Copie disponibili: {{b.available_copies}}</p>
+                        <p class="card-description">{{b.description}}</p>
+
+                        {% if current_user.role == 0 %}
+                        <p><a href="{{ url_for('book', id=b.id)}}"
+                                class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Scopri
+                                di più</a></p>
+                        {% elif current_user.role == 1 %}
+                        <p><a href="{{ url_for('book', id=b.id)}}"
+                                class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Visualizza
+                                info</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% if current_user.is_authenticated and current_user.role == 1 %}
+<!-- Modal per aggiunta libro -->
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookModalLabel">Aggiungi nuovo libro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('book_redirect') }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titolo</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Autore</label>
+                        <input type="text" class="form-control" id="author" name="author" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="genre" class="form-label">Genere</label>
+                        <select class="form-select" id="genre" name="genre" required>
+                            <option value="" selected disabled>Scegli...</option>
+                            {% for genre in genres %}
+                            <option value="{{ genre.id }}">{{ genre.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="publication_year" class="form-label">Anno di pubblicazione</label>
+                        <input type="number" class="form-control" id="publication_year" name="publication_year"
+                            min="1000" max="2100" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descrizione</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cover" class="form-label">Copertina</label>
+                        <input class="form-control" type="file" id="cover" name="cover" accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total_copies" class="form-label">Numero copie totali</label>
+                        <input type="number" class="form-control" id="total_copies" name="total_copies" min="1"
+                            required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Aggiungi libro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/catalogue.js') }}"></script>
+{% endblock %}

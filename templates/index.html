@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+<section class="vh-100 position-relative overflow-hidden p-0 m-0">
+    <div class="position-absolute top-0 start-0 w-100 h-100">
+
+        <img src="{{url_for('static', filename='/images/assets/hero.webp')}}" class="d-block mx-lg-auto img-fluid"
+            alt="sfondo libreria" loading="lazy">
+        <div class="position-absolute top-0 start-0 w-100 h-100 hero"></div>
+    </div>
+
+    <div class="position-relative d-flex flex-column justify-content-center align-items-center h-100 text-center px-4">
+        <h1 class="display-2 fw-bold mt-5">Benvenuti nella nostra Biblioteca
+            Digitale</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4 ">
+                La tua porta d'accesso a un mondo infinito di conoscenza, cultura e intrattenimento. La
+                nostra
+                biblioteca digitale offre una vasta collezione di libri, riviste, documenti storici e
+                risorse
+                multimediali, comodamente accessibili ovunque e in qualsiasi momento. Che tu sia uno
+                studente,
+                un ricercatore o un appassionato lettore, qui troverai materiale aggiornato e di qualità,
+                con
+                strumenti intuitivi per facilitare la ricerca e la lettura. Scopri il piacere di leggere
+                senza
+                confini, esplora nuovi argomenti e arricchisci il tuo sapere con un semplice click.
+            </p>
+        </div>
+    </div>
+
+</section>
+
+
+<!--CAROSELLI-->
+
+<div class="container py-5">
+    <!--SISTEMARE IMMAGINI: DEVONO AVERE STESSE DIMENSIONI-->
+    <div class="row justify-content-center">
+        <div class="py-5">
+            <h4>I nostri libri</h4>
+        </div>
+        <div id="carouselBooks" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
+            <div class="carousel-indicators">
+                {% for book in random_books %}
+                <button type="button" data-bs-target="#carouselBooks" data-bs-slide-to="{{loop.index0}}"
+                    class="{% if loop.first %}active{% endif %}" {% if loop.first %}aria-current="true" {% endif %}
+                    aria-label="Slide {{loop.index}}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+
+                {% for book in random_books %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}" data-bs-interval="3700">
+                    <img src="{{url_for('static', filename=book.cover)}}" class="d-block w-25 mx-auto "
+                        alt="{{book.title}}-{{book.author}}">
+                </div>
+                {% endfor %}
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselBooks" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselBooks" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="row justify-content-center">
+        <div class="py-5">
+            <h4>I libri più letti questo mese</h4>
+        </div>
+        <div id="carouselMostReadBooks" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
+            <div class="carousel-indicators">
+                {% for book in most_read_books %}
+                <button type="button" data-bs-target="#carouselMostReadBooks" data-bs-slide-to="{{loop.index0}}"
+                    class="{% if loop.first %}active{% endif %}" {% if loop.first %}aria-current="true" {% endif %}
+                    aria-label="Slide {{loop.index}}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+
+                {% for book in most_read_books %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}" data-bs-interval="3700">
+                    <img src="{{url_for('static', filename=book.cover)}}" class="d-block w-25 mx-auto "
+                        alt="{{book.title}}-{{book.author}}">
+                </div>
+                {% endfor %}
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselMostReadBooks"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselMostReadBooks"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

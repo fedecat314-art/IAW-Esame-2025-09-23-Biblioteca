@@ -1,0 +1,73 @@
+import sqlite3
+
+from utils.logger import get_logger
+from utils.vars import DB_PATH, ROOT_PATH
+
+logger = get_logger()
+
+
+def get_all_genres():
+    """
+    Restituisce tutti i generi 
+
+    Returns:
+        list: Lista di dizionari contenenti i dettagli dei generi 
+    """
+
+    query = "SELECT * FROM genres"
+
+    conn = sqlite3.connect(ROOT_PATH + DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(query)
+    genres = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return [{"id": genre[0], "name": genre[1]} for genre in genres]
+
+
+def get_most_read_genres(n):
+
+    query = """ 
+    SELECT genres.*, COUNT (loans.id) as loancount
+    FROM genres
+    JOIN books ON genres.id=books.genre
+    JOIN loans ON books.id=loans.book_id
+    GROUP BY genres.id 
+    ORDER BY loancount DESC
+    LIMIT ?
+    """
+    conn = sqlite3.connect(ROOT_PATH + DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(query, (n,))
+    most_read_genres = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return [{"id": genre[0], "name": genre[1]} for genre in most_read_genres]
+
+
+def get_genre_by_id(genre_id: int):
+    """
+    Restituisce un genere dato il suo ID
+
+    Parameters:
+        genre_id (int): ID del genere
+
+    Returns:
+        dict: Dizionario contenente i dettagli del genere, o None se non trovato
+    """
+
+    query = "SELECT * FROM genres WHERE id = ?"
+
+    conn = sqlite3.connect(ROOT_PATH + DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(query, (genre_id,))
+    genre = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if genre:
+        return {"id": genre[0], "name": genre[1]}
+
+    return None

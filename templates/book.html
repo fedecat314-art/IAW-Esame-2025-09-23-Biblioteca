@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}{{book_specifico.title}}-{{book_specifico.author}}{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center gap-5">
+        <div class="col-md-5 col-lg-5 ">
+            <figure class="figure m-5">
+                <img src="{{ url_for('static', filename=book_specifico['cover']) }}" class="figure-img img-fluid w-90"
+                    alt="...">
+            </figure>
+        </div>
+        <div class="col-md-5 col-lg-4 order-md-last mt-5">
+            <h4 class="d-flex justify-content-between align-items-center mb-3"> <span
+                    class="text">{{book_specifico.title}}</span></h4>
+            <p>{{book_specifico.description}}</p>
+
+
+            <!--IO HO RISOLTO CON BOOK_SPECIFICO CHE è UN DIZIONARIO PRESO DA BOOK_DAO A CUI SI APPLICA LA FUNZIONE GET_BOOK_BY_ID A CUI HO FATTO RESTITUIRE COME RISULTATO IL DIZIONARIO DI OGNI LIBRO, COME FA LA FUNZIONE GET_ALL_BOOKS QUINDI, ALTRIMENTI NON FUNZIONA, QUINDI O HO SBAGLIATO IO A USARE GET BY ID O UNA DELLE DUE è INUTILE-->
+
+            {% if current_user.is_authenticated %}
+            {% if current_user.role == 0 %}
+            {% if book_specifico.available_copies != 0 %}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Prenota
+            </button>
+
+
+            {% else %}
+            <p class="text dark-text-emphasis">Al momento non ci sono copie disponibili</p>
+            <button type="button" class="btn btn-success w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                disabled>
+                Prenota
+            </button>
+            {% endif %}
+
+
+
+            {% elif current_user.role == 1 %}
+            <!-- Trigger modal cambio dati -->
+            <div class="mt-4 d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                    data-bs-target="#editProfileModal">
+                    <i class="bi bi-pencil-square me-1"></i> Modifica dati
+                </button>
+            </div>
+
+
+            <p>{{book_specifico.title}} è stato prestato {{loan_count_specifico[0]['loans_count'] if
+                loan_count_specifico else
+                0}} volte</p>
+
+            <form method="POST" action="{{ url_for('book', id=book_specifico.id) }}">
+                <div class="d-flex">
+                    <input type="hidden" name="action" value="delete">
+                    <button type="submit" class="btn btn-danger">Rimuovi libro</button>
+                </div>
+            </form>
+            {% endif %}
+
+            {% else %}
+            <a class="btn btn-outline-secondary" href="{{ url_for('login') }}">Prenota</a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal per prenotazione -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{{ url_for('new_loan', book_id=book_specifico.id) }}">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Inserisci due date valide</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="dataInizio" class="form-label">Data inizio prestito</label>
+                        <input type="date" id="dataInizio" name="dataInizio" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dataFine" class="form-label">Data riconsegna</label>
+                        <input type="date" id="dataFine" name="dataFine" class="form-control" readonly>
+                    </div>
+                </div>
+                <p class="text-center text-body-secondary">Puoi annullare il prestito 24 prima del suo inizio</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <form method="POST" action="{{ url_for('book', id=book_specifico.id) }}">
+                        <input type="hidden" name="action" value="new_loan">
+                        <button type="submit" class="btn btn-success">Prenota</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal per modifica dati libro -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Modifica i dati del libro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('book', id = book_specifico.id) }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titolo</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                            value="{{ book_specifico.title }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Autore</label>
+                        <input type="text" class="form-control" id="author" name="author"
+                            value="{{ book_specifico.author }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="genre" class="form-label">Genere</label>
+                        <input type="text" class="form-control" id="genre" name="genre"
+                            value="{{ book_specifico.genre }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="publication_year" class="form-label">Anno di pubblicazione</label>
+                        <input type="text" class="form-control" id="publication_year" name="publication_year"
+                            value="{{ book_specifico.publication_year }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descrizione</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"
+                            required>{{ book_specifico.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_total" class="form-label">Copie totali</label>
+                        <input type="text" class="form-control" id="new_total" name="new_total"
+                            value="{{ book_specifico.total_copies }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cover" class="form-label">Seleziona una nuova immagine</label>
+                        <input class="form-control" type="file" id="cover" name="cover" accept="image/*">
+                    </div>
+                    <input type="hidden" name="action" value="update">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Salva
+                            modifiche</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/book.js') }}"></script>
+{% endblock %}

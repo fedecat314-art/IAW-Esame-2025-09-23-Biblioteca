@@ -1,0 +1,90 @@
+.card-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;   /* numero di righe da mostrare */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;     /* importante per permettere il wrapping */
+}
+
+.spacer {
+    height: 30px;
+}
+
+.image-hover-overlay {
+    opacity: 0;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.3s ease;
+}
+
+.col-md-4:hover .image-hover-overlay {
+    opacity: 1;
+}
+
+.profile-image {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+
+.profile-image-overlay {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+
+
+.hero {
+    background-image: linear-gradient(rgba(255,255,255,0.1)0%, rgba(222, 145, 14,1)70%);
+    
+}
+
+
+body {
+    color: #402000;
+    background-color: rgb(222, 145, 14);
+    font-family: "Playfair", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    
+}
+
+.navbar{
+    color:#FBBF24 ;
+    background-color: #854d0e;
+}
+
+.card{
+    background-color: #e5ad63;
+    box-shadow: 5px 5px 15px 3px #402000;
+}
+
+
+.profile_card{
+    color: #ff2600;
+}
+
+.table{
+    color:#FBBF24 ;
+    background-color: #854d0e;
+}
+
+
+
+
+@media (min-width: 768px) {
+
+    .profile-image {
+        border-top-left-radius: 0.375rem;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0.375rem;
+    }
+
+    .profile-image-overlay {
+        border-top-left-radius: 0.375rem;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0.375rem;
+    }
+}
